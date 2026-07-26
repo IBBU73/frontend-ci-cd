@@ -8,7 +8,21 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/IBBU73/frontend-ci-cd.git'
             }
         }
-
+        stage('install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'npm test ----watchAll=false'
+            }
+        }
         stage('Docker Build') {
             steps {
                 sh 'docker build -t react-app:v1 .'
