@@ -1,36 +1,39 @@
 pipeline {
-    agent any 
-    
+    agent any
+
     stages {
-        
-        stage('checkeout'){
+
+        stage('Checkout') {
             steps {
-                git branch :'master',url:
-                'https://github.com/IBBU73/frontend-ci-cd.git'
+                git branch: 'master', url: 'https://github.com/IBBU73/frontend-ci-cd.git'
             }
         }
-        stage('docker build'){
+
+        stage('Docker Build') {
             steps {
-                sh 'docker build -t reacr-app:v1 .'
+                sh 'docker build -t react-app:v1 .'
             }
         }
-        stage('docker rm') {
+
+        stage('Remove Old Container') {
             steps {
                 sh 'docker rm -f react-container || true'
             }
         }
-        stage('run new container'){
+
+        stage('Run New Container') {
             steps {
                 sh 'docker run -d -p 8000:4100 --name react-container react-app:v1'
-            }
-            
-        post {
-            success {
-                echo 'deployed success'
-            }
-            failure {
-                echo 'deployment failed'
             }
         }
     }
 
+    post {
+        success {
+            echo 'Deployment Successful'
+        }
+        failure {
+            echo 'Deployment Failed'
+        }
+    }
+} 
