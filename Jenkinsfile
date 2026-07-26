@@ -2,10 +2,10 @@ pipeline {
     agent any 
     
     stages {
+        
         stage('checkeout'){
             steps {
-                git branch :'master',
-                    url:
+                git branch :'master',url:
                 'https://github.com/IBBU73/frontend-ci-cd.git'
             }
         }
@@ -22,9 +22,8 @@ pipeline {
         stage('run new container'){
             steps {
                 sh 'docker run -d -p 8000:4100 --name react-container react-app:v1'
-            
             }
-        }        
+            
         post {
             success {
                 echo 'deployed success'
