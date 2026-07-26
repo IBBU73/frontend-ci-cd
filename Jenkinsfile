@@ -4,8 +4,9 @@ pipeline {
     stages {
         stage('checkeout'){
             steps {
-                git branch :'main',
-                ''
+                git branch :'master',
+                    url:
+                'https://github.com/IBBU73/frontend-ci-cd.git'
             }
         }
         stage('docker build'){
@@ -16,6 +17,7 @@ pipeline {
         stage('docker rm') {
             steps {
                 sh 'docker rm -f react-container || true'
+            }
         }
         stage('run new container'){
             steps {
